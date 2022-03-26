@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class BlueButton extends StatelessWidget {
   final String placeholder;
-  final Function() onPressed;
+  final Function()? onPressed;
 
   const BlueButton({
     Key? key, 
@@ -21,11 +21,11 @@ class BlueButton extends StatelessWidget {
         height: 50,
         child: Text(placeholder, style: const TextStyle(color: Colors.white, fontSize: 18),),
         decoration: BoxDecoration(
-          color: Colors.blue,
+          color: onPressed != null ? Colors.blue : Colors.grey,
           borderRadius: BorderRadius.circular(32)
         ),
       ),
-      onPressed: onPressed
+      onPressed: onPressed,
     );
   }
 }

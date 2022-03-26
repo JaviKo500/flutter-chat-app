@@ -1,4 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import 'package:flutter_chat_app/helpers/show_alert.dart';
+
+import 'package:flutter_chat_app/services/auth_service.dart';
+
 import 'package:flutter_chat_app/widgets/blue_button.dart';
 import 'package:flutter_chat_app/widgets/custom_input.dart';
 import 'package:flutter_chat_app/widgets/labels.dart';
@@ -50,6 +56,7 @@ class __FormState extends State<_Form> {
   final passCtrl = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    final authService = Provider.of<AuthService>(context);
     return Container(
       margin: const EdgeInsets.only(top: 40),
       padding: const EdgeInsets.symmetric(horizontal: 50),
@@ -76,10 +83,15 @@ class __FormState extends State<_Form> {
           // TextField(),
           BlueButton(
             placeholder: 'Sing up', 
-            onPressed: () {
-              print(emailCtrl.text);
-              print(passCtrl.text);
-              print(nameCtrl.text);
+            onPressed: authService.authenticated ? null : () async {
+              final loginOk = await authService.register(nameCtrl.text.trim(), emailCtrl.text.trim(), passCtrl.text.trim());
+              FocusScope.of(context).unfocus();
+              if ( loginOk == true ) {
+                // TODO: connect socket server
+                Navigator.pushReplacementNamed(context, 'user');
+              } else {
+                showAlert(context, 'Invalid credentials', loginOk);
+              }
             }
           )
         ],
