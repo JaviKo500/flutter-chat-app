@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:flutter_chat_app/helpers/show_alert.dart';
+import 'package:flutter_chat_app/services/socket_service.dart';
 
 import 'package:flutter_chat_app/services/auth_service.dart';
 
@@ -57,6 +58,7 @@ class __FormState extends State<_Form> {
   @override
   Widget build(BuildContext context) {
     final authService = Provider.of<AuthService>(context);
+    final socketService = Provider.of<SocketService>(context);
     return Container(
       margin: const EdgeInsets.only(top: 40),
       padding: const EdgeInsets.symmetric(horizontal: 50),
@@ -87,7 +89,7 @@ class __FormState extends State<_Form> {
               final loginOk = await authService.register(nameCtrl.text.trim(), emailCtrl.text.trim(), passCtrl.text.trim());
               FocusScope.of(context).unfocus();
               if ( loginOk == true ) {
-                // TODO: connect socket server
+                socketService.connect();
                 Navigator.pushReplacementNamed(context, 'user');
               } else {
                 showAlert(context, 'Invalid credentials', loginOk);

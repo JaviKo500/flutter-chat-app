@@ -49,7 +49,7 @@ class AuthService with ChangeNotifier {
       'email': email,
       'password': password
     };
-    final uri = Uri.parse('${ Evironment.apiUrl }/login');
+    final uri = Uri.parse('${ Environment.apiUrl }/login');
     final resp = await http.post( uri, 
       body: jsonEncode(data),
       headers: {
@@ -74,7 +74,7 @@ class AuthService with ChangeNotifier {
       'email': email,
       'password': password
     };
-    final uri = Uri.parse('${ Evironment.apiUrl }/login/new');
+    final uri = Uri.parse('${ Environment.apiUrl }/login/new');
     final resp = await http.post( uri, 
       body: jsonEncode(data),
       headers: {
@@ -96,7 +96,7 @@ class AuthService with ChangeNotifier {
   Future<bool> isLoggedIn() async {
     final token = await _storage.read(key: 'token');
 
-    final uri = Uri.parse('${ Evironment.apiUrl }/login/renew');
+    final uri = Uri.parse('${ Environment.apiUrl }/login/renew');
     final resp = await http.get( uri, 
       headers: {
         'Content-Type': 'application/json',
